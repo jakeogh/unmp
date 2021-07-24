@@ -24,33 +24,19 @@
 
 #import os
 import sys
-#import sh
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
 
 import click
-#import time
 import msgpack
-
-signal(SIGPIPE, SIG_DFL)
-#from pathlib import Path
 from asserttool import eprint
 from asserttool import ic
 from asserttool import nevd
-from asserttool import validate_slice
 from asserttool import verify
-#from retry_on_exception import retry_on_exception
-from enumerate_input import enumerate_input
 
-#from typing import List
-#from typing import Tuple
-#from typing import Sequence
-#from typing import Generator
-#from typing import Iterable
-#from typing import ByteString
-#from typing import Optional
-#from typing import Union
+#from enumerate_input import enumerate_input
+signal(SIGPIPE, SIG_DFL)
 
 
 @click.command()
@@ -80,31 +66,3 @@ def cli(ctx,
         unpacker.feed(current_buffer)
         for value in unpacker:
             sys.stdout.buffer.write(value + end)
-
-
-    #iterator = mps
-
-    #index = 0
-    #for index, mp in enumerate_input(iterator=iterator,
-    #                                 dont_decode=True,
-    #                                 null=null,
-    #                                 progress=False,
-    #                                 skip=None,
-    #                                 head=None,
-    #                                 tail=None,
-    #                                 debug=debug,
-    #                                 verbose=verbose,):
-    #    #path = Path(os.fsdecode(path))
-
-    #    if verbose:  # or simulate:
-    #        ic(index, mp)
-
-    #    mp_un = msgpack.unpackb(mp, raw=False)
-    #    if verbose:
-    #        ic(mp_un)
-
-    #    sys.stdout.buffer.write(mp_un + end)
-
-#   #     if ipython:
-#   #         import IPython; IPython.embed()
-
