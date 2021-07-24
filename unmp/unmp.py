@@ -70,7 +70,7 @@ def cli(ctx,
                                      verbose=verbose,
                                      debug=debug,)
 
-    buffer_size = 10
+    buffer_size = 1024
     unpacker = msgpack.Unpacker()
     current_buffer = b''
     while True:
