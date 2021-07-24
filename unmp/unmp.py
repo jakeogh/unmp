@@ -69,29 +69,38 @@ def cli(ctx,
                                      ipython=False,
                                      verbose=verbose,
                                      debug=debug,)
-    iterator = mps
 
-    index = 0
-    for index, mp in enumerate_input(iterator=iterator,
-                                     dont_decode=True,
-                                     null=null,
-                                     progress=False,
-                                     skip=None,
-                                     head=None,
-                                     tail=None,
-                                     debug=debug,
-                                     verbose=verbose,):
-        #path = Path(os.fsdecode(path))
+    buffer_size = 1
+    unpacker = msgpack.Unpacker()
+    while True:
+        unpacker.feed(sys.stdin.buffer.read(buffer_size))
+        for value in unpacker:
+            sys.stdout.buffer.write(value + end)
 
-        if verbose:  # or simulate:
-            ic(index, mp)
 
-        mp_un = msgpack.unpackb(mp, raw=False)
-        if verbose:
-            ic(mp_un)
+    #iterator = mps
 
-        sys.stdout.buffer.write(mp_un + end)
+    #index = 0
+    #for index, mp in enumerate_input(iterator=iterator,
+    #                                 dont_decode=True,
+    #                                 null=null,
+    #                                 progress=False,
+    #                                 skip=None,
+    #                                 head=None,
+    #                                 tail=None,
+    #                                 debug=debug,
+    #                                 verbose=verbose,):
+    #    #path = Path(os.fsdecode(path))
 
-#        if ipython:
-#            import IPython; IPython.embed()
+    #    if verbose:  # or simulate:
+    #        ic(index, mp)
+
+    #    mp_un = msgpack.unpackb(mp, raw=False)
+    #    if verbose:
+    #        ic(mp_un)
+
+    #    sys.stdout.buffer.write(mp_un + end)
+
+#   #     if ipython:
+#   #         import IPython; IPython.embed()
 
