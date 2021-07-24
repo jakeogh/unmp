@@ -72,8 +72,12 @@ def cli(ctx,
 
     buffer_size = 1
     unpacker = msgpack.Unpacker()
+    current_buffer = b''
     while True:
-        unpacker.feed(sys.stdin.buffer.read(buffer_size))
+        current_buffer = sys.stdin.buffer.read(buffer_size)
+        if len(current_buffer) == 0:
+            break
+        unpacker.feed(current_buffer)
         for value in unpacker:
             sys.stdout.buffer.write(value + end)
 
