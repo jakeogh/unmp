@@ -22,11 +22,11 @@
 # pylint: disable=C0305  # Trailing newlines editor should fix automatically, pointless warning
 
 
-#import os
 import sys
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
+from typing import Union
 
 import click
 import msgpack
@@ -35,19 +35,20 @@ from asserttool import ic
 from asserttool import nevd
 from asserttool import verify
 
-#from enumerate_input import enumerate_input
 signal(SIGPIPE, SIG_DFL)
 
 
 @click.command()
 @click.argument("mps", type=str, nargs=-1)
-@click.option('--verbose', is_flag=True)
-@click.option('--debug', is_flag=True)
+@click.option('-v', '--verbose', count=True)
+@click.option('-d', '--debug', count=True)
+@click.option('--buffer', 'buffer_size', type=int, default=16384)
 @click.pass_context
 def cli(ctx,
         mps: tuple[str],
-        verbose: bool,
-        debug: bool,
+        buffer_size: int,
+        verbose: Union[bool, int],
+        debug: Union[bool, int],
         ):
 
     null, end, verbose, debug = nevd(ctx=ctx,
@@ -57,7 +58,7 @@ def cli(ctx,
                                      debug=debug,)
 
     #buffer_size = 1024
-    buffer_size = 16384
+    #buffer_size = 16384
     unpacker = msgpack.Unpacker()
     current_buffer = b''
     while True:
