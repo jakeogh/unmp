@@ -30,21 +30,15 @@ from typing import Union
 
 import click
 import msgpack
-#from asserttool import eprint
-#from asserttool import ic
 from asserttool import nevd
-
-#from asserttool import verify
 
 signal(SIGPIPE, SIG_DFL)
 
 
 @click.command()
-#@click.argument("mps", type=str, nargs=-1)
-#        mps: tuple[str],
 @click.option('-v', '--verbose', count=True)
 @click.option('-d', '--debug', count=True)
-@click.option('--buffer', 'buffer_size', type=int, default=16384)
+@click.option('--buffer', 'buffer_size', type=int, default=16384,)
 @click.pass_context
 def cli(ctx,
         buffer_size: int,
