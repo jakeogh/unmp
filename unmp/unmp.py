@@ -68,6 +68,6 @@ def cli(ctx,
             if use_repr:
                 value = repr(value)
                 #ic(value)
-                sys.stdout.buffer.write(value + end.decode('utf8'))
+                sys.stdout.write(value + end.decode('utf8'))
             else:
                 sys.stdout.buffer.write(value + end)
