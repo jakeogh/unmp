@@ -75,7 +75,7 @@ def cli(ctx,
                 #ic(value)
                 sys.stdout.write(value + end.decode('utf8'))
             elif use_hex:
-                value = hex(value)
+                value = value.hex()
                 #ic(value)
                 sys.stdout.write(value + end.decode('utf8'))
             else:
