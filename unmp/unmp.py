@@ -72,11 +72,12 @@ def cli(ctx,
         for value in unpacker:
             if use_repr:
                 value = repr(value)
-                #ic(value)
                 sys.stdout.write(value + end.decode('utf8'))
             elif use_hex:
                 value = value.hex()
-                #ic(value)
                 sys.stdout.write(value + end.decode('utf8'))
             else:
-                sys.stdout.buffer.write(value + end)
+                if end == b'\00':  # not writing to a terminal
+                    sys.stdout.buffer.write(value + end)
+                else:
+                    sys.stdout.write(value + end.decode('utf8'))
