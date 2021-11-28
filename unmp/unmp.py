@@ -36,15 +36,17 @@ signal(SIGPIPE, SIG_DFL)
 
 
 @click.command()
-@click.option('-v', '--verbose', count=True)
-@click.option('-d', '--debug', count=True)
+@click.option('-v', '--verbose', count=True,)
+@click.option('-d', '--debug', count=True,)
+@click.option('-r', '--repr', 'use_repr', is_flag=True,)
 @click.option('--buffer', 'buffer_size', type=int, default=16384,)
 @click.pass_context
 def cli(ctx,
         buffer_size: int,
         verbose: Union[bool, int],
         debug: Union[bool, int],
-        ):
+        use_repr: bool,
+        ) -> None:
 
     null, end, verbose, debug = nevd(ctx=ctx,
                                      printn=False,
@@ -62,4 +64,6 @@ def cli(ctx,
             break
         unpacker.feed(current_buffer)
         for value in unpacker:
+            if use_repr:
+                value = repr(value)
             sys.stdout.buffer.write(value + end)
