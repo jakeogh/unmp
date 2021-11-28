@@ -31,6 +31,7 @@ from typing import Union
 import click
 import msgpack
 from asserttool import ic
+from asserttool import maxone
 from asserttool import nevd
 
 signal(SIGPIPE, SIG_DFL)
@@ -40,6 +41,7 @@ signal(SIGPIPE, SIG_DFL)
 @click.option('-v', '--verbose', count=True,)
 @click.option('-d', '--debug', count=True,)
 @click.option('-r', '--repr', 'use_repr', is_flag=True,)
+@click.option('-h', '--hex', 'use_hex', is_flag=True,)
 @click.option('--buffer', 'buffer_size', type=int, default=16384,)
 @click.pass_context
 def cli(ctx,
@@ -47,7 +49,10 @@ def cli(ctx,
         verbose: Union[bool, int],
         debug: Union[bool, int],
         use_repr: bool,
+        use_hex: bool,
         ) -> None:
+
+    maxone([use_repr, use_hex])
 
     null, end, verbose, debug = nevd(ctx=ctx,
                                      printn=False,
