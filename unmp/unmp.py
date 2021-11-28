@@ -67,5 +67,7 @@ def cli(ctx,
         for value in unpacker:
             if use_repr:
                 value = repr(value)
-                ic(value)
-            sys.stdout.buffer.write(value + end)
+                #ic(value)
+                sys.stdout.buffer.write(value + end.decode('utf8'))
+            else:
+                sys.stdout.buffer.write(value + end)
