@@ -30,6 +30,7 @@ from typing import Union
 
 import click
 import msgpack
+from asserttool import ic
 from asserttool import nevd
 
 signal(SIGPIPE, SIG_DFL)
@@ -66,4 +67,5 @@ def cli(ctx,
         for value in unpacker:
             if use_repr:
                 value = repr(value)
+                ic(value)
             sys.stdout.buffer.write(value + end)
