@@ -80,4 +80,4 @@ def cli(ctx,
                 if end == b'\00':  # not writing to a terminal
                     sys.stdout.buffer.write(value + end)
                 else:
-                    sys.stdout.write(value + end.decode('utf8'))
+                    sys.stdout.write(value.decode('utf8') + end.decode('utf8'))
