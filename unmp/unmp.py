@@ -71,7 +71,7 @@ def cli(ctx,
         unpacker.feed(current_buffer)
         for value in unpacker:
             if verbose:
-                ic(value)
+                ic(type(value), value)
             if use_repr:
                 value = repr(value)
                 sys.stdout.write(value + end.decode('utf8'))
