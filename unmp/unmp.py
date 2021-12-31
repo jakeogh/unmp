@@ -30,9 +30,9 @@ from typing import Union
 
 import click
 import msgpack
+from asserttool import evd
 from asserttool import ic
 from asserttool import maxone
-from asserttool import nevd
 
 signal(SIGPIPE, SIG_DFL)
 
@@ -54,11 +54,11 @@ def cli(ctx,
 
     maxone([use_repr, use_hex])
 
-    null, end, verbose, debug = nevd(ctx=ctx,
-                                     printn=False,
-                                     ipython=False,
-                                     verbose=verbose,
-                                     debug=debug,)
+    end, verbose, debug = evd(ctx=ctx,
+                              printn=False,
+                              ipython=False,
+                              verbose=verbose,
+                              debug=debug,)
 
     #buffer_size = 1024
     #buffer_size = 16384
@@ -70,6 +70,8 @@ def cli(ctx,
             break
         unpacker.feed(current_buffer)
         for value in unpacker:
+            if verbose:
+                ic(value)
             if use_repr:
                 value = repr(value)
                 sys.stdout.write(value + end.decode('utf8'))
