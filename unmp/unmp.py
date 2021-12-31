@@ -30,9 +30,10 @@ from typing import Union
 
 import click
 import msgpack
-from asserttool import evd
+from asserttool import eprint
 from asserttool import ic
 from asserttool import maxone
+from asserttool import tevd
 
 signal(SIGPIPE, SIG_DFL)
 
@@ -54,14 +55,18 @@ def cli(ctx,
 
     maxone([use_repr, use_hex])
 
-    end, verbose, debug = evd(ctx=ctx,
-                              printn=False,
-                              ipython=False,
-                              verbose=verbose,
-                              debug=debug,)
+    tty, end, verbose, debug = tevd(ctx=ctx,
+                                    printn=False,
+                                    ipython=False,
+                                    verbose=verbose,
+                                    debug=debug,)
 
     #buffer_size = 1024
     #buffer_size = 16384
+    if tty:
+        if not use_repr:
+            eprint('stdout is a tty, refusing to attempt to write arb py objects to it, use --repr')
+            sys.exit(1)
     unpacker = msgpack.Unpacker()
     current_buffer = b''
     while True:
@@ -82,4 +87,5 @@ def cli(ctx,
                 if end == b'\00':  # not writing to a terminal
                     sys.stdout.buffer.write(value + end)
                 else:
+                    assert False
                     sys.stdout.write(value.decode('utf8') + end.decode('utf8'))
