@@ -66,6 +66,7 @@ def cli(ctx,
     if tty:
         if not use_repr:
             eprint('stdout is a tty, refusing to attempt to write arb py objects to it, use --repr')
+            sys.stdin.close()
             sys.exit(1)
     unpacker = msgpack.Unpacker()
     current_buffer = b''
