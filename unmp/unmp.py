@@ -47,15 +47,21 @@ def unmp(*,
          verbose: int,
          valid_types: Optional[Union[list, tuple]] = None,
          buffer_size: int = 16384,
+         skip: Optional[int] = None,
          ) -> Iterator[object]:
     unpacker = msgpack.Unpacker()
+    index = 0
     for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
         if verbose == inf:
             ic(valid_types, buffer_size, len(chunk), chunk)
         unpacker.feed(chunk)
         for value in unpacker:
+            index += 1
             if verbose:
-                ic(value)
+                ic(index, value)
+            if skip is not None:
+                if index <= skip:
+                    continue
             #assert isinstance(value, list)
             if valid_types is not None:
                 assert type(value) in valid_types
