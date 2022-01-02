@@ -91,19 +91,21 @@ def cli(ctx,
     if tty:
         end = b'\n'
 
-    while True:
-        #current_buffer = sys.stdin.buffer.read(buffer_size)
-        #if len(current_buffer) == 0:
-        #    break
-        #unpacker.feed(current_buffer)
-        unpacker = unmp(buffer_size)
-        #next_items = next(unpacker)
-        try:
-            value = next(unpacker)
-        except StopIteration:
-            return
-        #for value in unpacker:
-        #for value in next_items:
+    unpacker = unmp(buffer_size)
+    for value in unpacker:
+    #while True:
+    #    #current_buffer = sys.stdin.buffer.read(buffer_size)
+    #    #if len(current_buffer) == 0:
+    #    #    break
+    #    #unpacker.feed(current_buffer)
+    #    unpacker = unmp(buffer_size)
+    #    #next_items = next(unpacker)
+    #    try:
+    #        value = next(unpacker)
+    #    except StopIteration:
+    #        return
+    #    #for value in unpacker:
+    #    #for value in next_items:
         if verbose:
             ic(type(value), value)
         if use_repr:
