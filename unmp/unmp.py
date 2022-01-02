@@ -39,11 +39,16 @@ from clicktool import click_global_options
 
 signal(SIGPIPE, SIG_DFL)
 
-def unmp(buffer_size: int = 16384):
+def unmp(*,
+         verbose: int,
+         buffer_size: int = 16384,
+         ) -> object:
     unpacker = msgpack.Unpacker()
     for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
         unpacker.feed(chunk)
         for value in unpacker:
+            if verbose:
+                ic(value)
             yield value
 
 
@@ -77,7 +82,7 @@ def cli(ctx,
     if tty:
         end = b'\n'
 
-    unpacker = unmp(buffer_size)
+    unpacker = unmp(buffer_size=buffer_size, verbose=verbose,)
     for value in unpacker:
         if verbose:
             ic(type(value), value)
