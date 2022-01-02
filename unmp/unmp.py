@@ -51,7 +51,7 @@ def unmp(*,
     unpacker = msgpack.Unpacker()
     for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
         if verbose ==inf:
-            ic(chunk)
+            ic(len(chunk), chunk)
         unpacker.feed(chunk)
         for value in unpacker:
             if verbose:
