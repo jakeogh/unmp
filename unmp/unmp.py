@@ -27,7 +27,7 @@ from math import inf
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
-from typing import Generator
+from typing import Iterator
 from typing import Optional
 from typing import Union
 
@@ -47,7 +47,7 @@ def unmp(*,
          verbose: int,
          valid_types: Optional[Union[list, tuple]] = None,
          buffer_size: int = 16384,
-         ) -> Generator[object]:
+         ) -> Iterator[object]:
     unpacker = msgpack.Unpacker()
     for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
         if verbose ==inf:
