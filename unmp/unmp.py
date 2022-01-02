@@ -50,7 +50,7 @@ def unmp(buffer_size):
         #    break
         unpacker.feed(chunk)
         for value in unpacker:
-            ic(value)
+            #ic(value)
             yield value
         #current_buffer = sys.stdin.buffer.read(buffer_size)
     ic('ran out')
