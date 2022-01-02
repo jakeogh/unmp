@@ -50,6 +50,7 @@ def unmp(buffer_size):
             ic(value)
             yield value
         current_buffer = sys.stdin.buffer.read(buffer_size)
+    ic('ran out')
 
 
 @click.command()
