@@ -94,7 +94,10 @@ def cli(ctx,
         #unpacker.feed(current_buffer)
         unpacker = unmp(buffer_size)
         #next_items = next(unpacker)
-        value = next(unpacker)
+        try:
+            value = next(unpacker)
+        except StopIteration:
+            return
         #for value in unpacker:
         #for value in next_items:
         if verbose:
