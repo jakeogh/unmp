@@ -39,6 +39,17 @@ from clicktool import click_global_options
 
 signal(SIGPIPE, SIG_DFL)
 
+def unmp(buffer_size):
+    unpacker = msgpack.Unpacker()
+    current_buffer = b''
+    while True:
+        current_buffer = sys.stdin.buffer.read(buffer_size)
+        if len(current_buffer) == 0:
+            break
+        unpacker.feed(current_buffer)
+        for value in unpacker:
+            yield value
+
 
 @click.command()
 @click.option('-r', '--repr', 'use_repr', is_flag=True,)
@@ -60,6 +71,8 @@ def cli(ctx,
                       verbose=verbose,
                       verbose_inf=verbose_inf,
                       )
+    #unpacker = msgpack.Unpacker()
+    #current_buffer = b''
 
     #buffer_size = 1024
     #buffer_size = 16384
@@ -68,19 +81,20 @@ def cli(ctx,
             eprint('stdout is a tty, refusing to attempt to write arb py objects to it, use --repr')
             sys.stdin.close()
             sys.exit(1)
-    unpacker = msgpack.Unpacker()
-    current_buffer = b''
 
     end = b'\0'
     if tty:
         end = b'\n'
 
     while True:
-        current_buffer = sys.stdin.buffer.read(buffer_size)
-        if len(current_buffer) == 0:
-            break
-        unpacker.feed(current_buffer)
-        for value in unpacker:
+        #current_buffer = sys.stdin.buffer.read(buffer_size)
+        #if len(current_buffer) == 0:
+        #    break
+        #unpacker.feed(current_buffer)
+        unpacker = unmp(buffer_size)
+        next_items = next(unpacker)
+        #for value in unpacker:
+        for value in next_items:
             if verbose:
                 ic(type(value), value)
             if use_repr:
