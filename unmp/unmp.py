@@ -91,8 +91,8 @@ def cli(ctx,
         if verbose:
             ic(type(value), value)
         if use_repr:
-            if len(value) == 1:
-                value = value[0]
+            #if len(value) == 1:
+            #    value = value[0]
             sys.stdout.write(repr(value) + end.decode('utf8'))
             continue
         elif use_hex:
