@@ -40,7 +40,7 @@ from clicktool import click_global_options
 signal(SIGPIPE, SIG_DFL)
 
 def unmp(buffer_size):
-    buffer_size = 1
+    buffer_size = 2*2
     unpacker = msgpack.Unpacker()
     #current_buffer = sys.stdin.buffer.read(buffer_size)
     #while len(current_buffer) > 0:
