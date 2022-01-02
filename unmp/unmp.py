@@ -48,9 +48,11 @@ def unmp(*,
          valid_types: Optional[Union[list, tuple]] = None,
          buffer_size: int = 16384,
          skip: Optional[int] = None,
+         single_type: bool = True,
          ) -> Iterator[object]:
     unpacker = msgpack.Unpacker()
     index = 0
+    found_type = None
     for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
         if verbose:
             #if hasattr(chunk, 'len'):
@@ -59,6 +61,11 @@ def unmp(*,
             #    ic(valid_types, buffer_size, type(chunk), chunk)
         unpacker.feed(chunk)
         for value in unpacker:
+            if single_type:
+                if index == 0:
+                    found_type = type(value)
+                else:
+                    assert isinstance(value, found_type)
             index += 1
             if verbose:
                 ic(index, value)
