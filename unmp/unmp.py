@@ -95,10 +95,15 @@ def cli(ctx,
                 if end == b'\00':  # not writing to a terminal
                     # value is any py object, we need a bytes representation
                     # utf8 is used, should be some locale setting, os.fsendoding thing
-                    _output = repr(value).encode('utf8')
+                    # ... hm
+                    # if output is utf8, it's not the null terminated input stream of byte paths
+                    # so that's bad, unmp should fail if it cant make null terminated output, instead of trying to show a list() without --repr
+                    #_output = repr(value).encode('utf8')
                     if verbose:
-                        ic(_output)
-                    sys.stdout.buffer.write(_output + end)
+                        #ic(_output)
+                        ic(value)
+                    #sys.stdout.buffer.write(_output + end)
+                    sys.stdout.buffer.write(value + end)  # hopefully value is bytes
                 else:
                     assert False
                     sys.stdout.write(value.decode('utf8') + end.decode('utf8'))
