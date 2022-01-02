@@ -23,6 +23,7 @@
 
 
 import sys
+from math import inf
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
@@ -39,12 +40,15 @@ from clicktool import click_global_options
 
 signal(SIGPIPE, SIG_DFL)
 
+
 def unmp(*,
          verbose: int,
          buffer_size: int = 16384,
          ) -> object:
     unpacker = msgpack.Unpacker()
     for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
+        if verbose ==inf:
+            ic(chunk)
         unpacker.feed(chunk)
         for value in unpacker:
             if verbose:
