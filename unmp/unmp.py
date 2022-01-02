@@ -42,14 +42,15 @@ signal(SIGPIPE, SIG_DFL)
 def unmp(buffer_size):
     unpacker = msgpack.Unpacker()
     current_buffer = sys.stdin.buffer.read(buffer_size)
-    while len(current_buffer) > 0:
+    #while len(current_buffer) > 0:
+    for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
         #if len(current_buffer) == 0:
         #    break
-        unpacker.feed(current_buffer)
+        unpacker.feed(chunk)
         for value in unpacker:
             ic(value)
             yield value
-        current_buffer = sys.stdin.buffer.read(buffer_size)
+        #current_buffer = sys.stdin.buffer.read(buffer_size)
     ic('ran out')
 
 
