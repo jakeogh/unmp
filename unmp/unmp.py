@@ -27,6 +27,7 @@ from math import inf
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
+from typing import Optional
 from typing import Union
 
 import click
@@ -43,6 +44,7 @@ signal(SIGPIPE, SIG_DFL)
 
 def unmp(*,
          verbose: int,
+         valid_types: Optional[Union[list, tuple]] = None,
          buffer_size: int = 16384,
          ) -> object:
     unpacker = msgpack.Unpacker()
@@ -53,6 +55,8 @@ def unmp(*,
         for value in unpacker:
             if verbose:
                 ic(value)
+            if valid_types is not None:
+                assert type(value) in valid_types
             yield value
 
 
