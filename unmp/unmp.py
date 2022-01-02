@@ -93,7 +93,10 @@ def cli(ctx,
                 if end == b'\00':  # not writing to a terminal
                     # value is any py object, we need a bytes representation
                     # utf8 is used, should be some locale setting, os.fsendoding thing
-                    sys.stdout.buffer.write(repr(value).encode('utf8') + end)
+                    _output = repr(value).encode('utf8')
+                    if verbose:
+                        ic(_output)
+                    sys.stdout.buffer.write(_output + end)
                 else:
                     assert False
                     sys.stdout.write(value.decode('utf8') + end.decode('utf8'))
