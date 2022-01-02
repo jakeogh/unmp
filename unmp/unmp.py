@@ -51,12 +51,12 @@ def unmp(*,
     unpacker = msgpack.Unpacker()
     for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
         if verbose == inf:
-            ic(len(chunk), chunk)
+            ic(valid_types, buffer_size, len(chunk), chunk)
         unpacker.feed(chunk)
         for value in unpacker:
             if verbose:
                 ic(value)
-            assert isinstance(value, list)
+            #assert isinstance(value, list)
             if valid_types is not None:
                 assert type(value) in valid_types
             yield value
