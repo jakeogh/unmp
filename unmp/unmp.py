@@ -48,6 +48,7 @@ def unmp(buffer_size):
             break
         unpacker.feed(current_buffer)
         for value in unpacker:
+            ic(value)
             yield value
 
 
