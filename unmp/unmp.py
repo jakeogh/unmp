@@ -33,33 +33,33 @@ import msgpack
 from asserttool import eprint
 from asserttool import ic
 from asserttool import maxone
-from asserttool import tevd
+from asserttool import tv
+from clicktool import click_add_options
+from clicktool import click_global_options
 
 signal(SIGPIPE, SIG_DFL)
 
 
 @click.command()
-@click.option('-v', '--verbose', count=True,)
-@click.option('-d', '--debug', count=True,)
 @click.option('-r', '--repr', 'use_repr', is_flag=True,)
 @click.option('-h', '--hex', 'use_hex', is_flag=True,)
 @click.option('--buffer', 'buffer_size', type=int, default=16384,)
+@click_add_options(click_global_options)
 @click.pass_context
 def cli(ctx,
         buffer_size: int,
-        verbose: Union[bool, int],
-        debug: Union[bool, int],
+        verbose: int,
+        verbose_inf: bool,
         use_repr: bool,
         use_hex: bool,
         ) -> None:
 
     maxone([use_repr, use_hex])
 
-    tty, end, verbose, debug = tevd(ctx=ctx,
-                                    printn=False,
-                                    ipython=False,
-                                    verbose=verbose,
-                                    debug=debug,)
+    tty, verbose = tv(ctx=ctx,
+                      verbose=verbose,
+                      verbose_inf=verbose_inf,
+                      )
 
     #buffer_size = 1024
     #buffer_size = 16384
@@ -70,6 +70,11 @@ def cli(ctx,
             sys.exit(1)
     unpacker = msgpack.Unpacker()
     current_buffer = b''
+
+    end = b'\0'
+    if tty:
+        end = b'\n'
+
     while True:
         current_buffer = sys.stdin.buffer.read(buffer_size)
         if len(current_buffer) == 0:
