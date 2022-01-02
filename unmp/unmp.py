@@ -53,7 +53,10 @@ def unmp(*,
     index = 0
     for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
         if verbose:
-            ic(valid_types, buffer_size, len(chunk), chunk)
+            #if hasattr(chunk, 'len'):
+            ic(valid_types, buffer_size, type(chunk), len(chunk), chunk)
+            #else:
+            #    ic(valid_types, buffer_size, type(chunk), chunk)
         unpacker.feed(chunk)
         for value in unpacker:
             index += 1
