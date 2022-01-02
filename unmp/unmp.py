@@ -91,7 +91,9 @@ def cli(ctx,
                 sys.stdout.write(value + end.decode('utf8'))
             else:
                 if end == b'\00':  # not writing to a terminal
-                    sys.stdout.buffer.write(value + end)
+                    # value is any py object, we need a bytes representation
+                    # utf8 is used, should be some locale setting, os.fsendoding thing
+                    sys.stdout.buffer.write(repr(value).encode('utf8') + end)
                 else:
                     assert False
                     sys.stdout.write(value.decode('utf8') + end.decode('utf8'))
