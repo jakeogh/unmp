@@ -41,15 +41,15 @@ signal(SIGPIPE, SIG_DFL)
 
 def unmp(buffer_size):
     unpacker = msgpack.Unpacker()
-    current_buffer = b''
-    while True:
-        current_buffer = sys.stdin.buffer.read(buffer_size)
-        if len(current_buffer) == 0:
-            break
+    current_buffer = sys.stdin.buffer.read(buffer_size)
+    while len(current_buffer) > 0:
+        #if len(current_buffer) == 0:
+        #    break
         unpacker.feed(current_buffer)
         for value in unpacker:
             ic(value)
             yield value
+        current_buffer = sys.stdin.buffer.read(buffer_size)
 
 
 @click.command()
