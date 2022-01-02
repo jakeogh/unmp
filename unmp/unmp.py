@@ -54,6 +54,7 @@ def unmp(*,
             ic(len(chunk), chunk)
         unpacker.feed(chunk)
         for value in unpacker:
+            assert isinstance(value, list)
             if verbose:
                 ic(value)
             if valid_types is not None:
