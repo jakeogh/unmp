@@ -46,7 +46,7 @@ signal(SIGPIPE, SIG_DFL)
 def unmp(*,
          verbose: int,
          valid_types: Optional[Union[list, tuple]] = None,
-         buffer_size: int = 16384,
+         buffer_size: int = 1024,
          skip: Optional[int] = None,
          single_type: bool = True,
          ) -> Iterator[object]:
