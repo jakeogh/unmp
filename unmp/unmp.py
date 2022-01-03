@@ -133,4 +133,5 @@ def cli(ctx,
         if verbose:
             ic(value)
         sys.stdout.buffer.write(value + end)  # hopefully value is bytes
-        sys.stdout.buffer.flush()
+
+    sys.stdout.buffer.flush()
