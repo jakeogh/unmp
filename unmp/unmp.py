@@ -74,7 +74,8 @@ def unmp(*,
                     continue
             #assert isinstance(value, list)
             if valid_types is not None:
-                assert type(value) in valid_types
+                if type(value) not in valid_types:
+                    raise TypeError('{} not in valid_types: {}'.format(type(value), valid_types))
             yield value
 
 
