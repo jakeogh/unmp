@@ -54,11 +54,8 @@ def unmp(*,
     index = 0
     found_type = None
     for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
-        if verbose:
-            #if hasattr(chunk, 'len'):
+        if verbose == inf:
             ic(valid_types, buffer_size, type(chunk), len(chunk), chunk)
-            #else:
-            #    ic(valid_types, buffer_size, type(chunk), chunk)
         unpacker.feed(chunk)
         for value in unpacker:
             if single_type:
@@ -67,7 +64,7 @@ def unmp(*,
                 else:
                     assert isinstance(value, found_type)
             index += 1
-            if verbose:
+            if verbose == inf:
                 ic(index, value)
             if skip is not None:
                 if index <= skip:
