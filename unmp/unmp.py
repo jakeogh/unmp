@@ -105,10 +105,6 @@ def cli(ctx,
             sys.stdin.close()
             sys.exit(1)
 
-    end = b'\0'
-    #if tty:
-    #    end = b'\n'
-
     unpacker = unmp(buffer_size=buffer_size, verbose=verbose,)
     for value in unpacker:
         if verbose:
@@ -116,11 +112,13 @@ def cli(ctx,
         if use_repr:
             #if len(value) == 1:
             #    value = value[0]
-            sys.stdout.write(repr(value) + end.decode('utf8'))
+            # in this case, the values are serialized, so it's correct for human/tty use to add '\n'
+            sys.stdout.write(repr(value) + '\n')
             continue
         if use_hex:
             value = value.hex()
-            sys.stdout.write(value + end.decode('utf8'))
+            # is this __repr__ too?
+            sys.stdout.write(value + '\0')
             continue
         #else:
             #if end == b'\00':  # not writing to a terminal
@@ -132,6 +130,6 @@ def cli(ctx,
             #_output = repr(value).encode('utf8')
         if verbose:
             ic(value)
-        sys.stdout.buffer.write(value + end)  # hopefully value is bytes
+        sys.stdout.buffer.write(value + b'\0')  # hopefully value is bytes
 
     sys.stdout.buffer.flush()
