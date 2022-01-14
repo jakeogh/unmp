@@ -107,24 +107,13 @@ def cli(ctx,
         if verbose:
             ic(type(value), value)
         if use_repr:
-            #if len(value) == 1:
-            #    value = value[0]
             # in this case, the values are serialized, so it's correct for human/tty use to add '\n'
             sys.stdout.write(repr(value) + '\n')
             continue
         if use_hex:
             value = value.hex()
-            # is this __repr__ too?
             sys.stdout.write(value + '\0')
             continue
-        #else:
-            #if end == b'\00':  # not writing to a terminal
-            # value is any py object, we need a bytes representation
-            # utf8 is used, should be some locale setting, os.fsendoding thing
-            # ... hm
-            # if output is utf8, it's not the null terminated input stream of byte paths
-            # so that's bad, unmp should fail if it cant make null terminated output, instead of trying to show a list() without --repr
-            #_output = repr(value).encode('utf8')
         if verbose:
             ic(value)
         sys.stdout.buffer.write(value + b'\0')  # hopefully value is bytes
