@@ -116,6 +116,13 @@ def cli(ctx,
             continue
         if verbose:
             ic(value)
-        sys.stdout.buffer.write(value + b'\0')  # hopefully value is bytes
 
-    sys.stdout.buffer.flush()
+        if isinstance(value, bytes):
+            sys.stdout.buffer.write(value + b'\0')  # hopefully value is bytes
+            sys.stdout.buffer.flush()
+        elif isinstance(value, str):
+            sys.stdout.write(value + '\0')
+            sys.stdout.flush()
+        else:
+            raise NotImplementedError
+
