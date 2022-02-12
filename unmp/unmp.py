@@ -27,54 +27,18 @@ from math import inf
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
-from typing import Iterator
-from typing import Optional
 from typing import Union
 
 import click
-import msgpack
-from asserttool import eprint
-from asserttool import ic
 from asserttool import maxone
 from asserttool import tv
 from clicktool import click_add_options
 from clicktool import click_global_options
+from epprint import epprint
+from eprint import eprint
 from mptool import unmp
 
 signal(SIGPIPE, SIG_DFL)
-
-
-#def unmp(*,
-#         verbose: int,
-#         valid_types: Optional[Union[list, tuple]] = None,
-#         buffer_size: int = 1024,
-#         skip: Optional[int] = None,
-#         single_type: bool = True,
-#         ) -> Iterator[object]:
-#    unpacker = msgpack.Unpacker()
-#    index = 0
-#    found_type = None
-#    for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
-#        if verbose == inf:
-#            ic(valid_types, buffer_size, type(chunk), len(chunk), chunk)
-#        unpacker.feed(chunk)
-#        for value in unpacker:
-#            if single_type:
-#                if index == 0:
-#                    found_type = type(value)
-#                else:
-#                    assert isinstance(value, found_type)
-#            index += 1
-#            if verbose == inf:
-#                ic(index, value)
-#            if skip is not None:
-#                if index <= skip:
-#                    continue
-#            #assert isinstance(value, list)
-#            if valid_types is not None:
-#                if type(value) not in valid_types:
-#                    raise TypeError('{} not in valid_types: {}'.format(type(value), valid_types))
-#            yield value
 
 
 @click.command()
@@ -85,7 +49,7 @@ signal(SIGPIPE, SIG_DFL)
 @click.pass_context
 def cli(ctx,
         buffer_size: int,
-        verbose: int,
+        verbose: Union[bool, int, float],
         verbose_inf: bool,
         use_repr: bool,
         use_hex: bool,
@@ -106,7 +70,7 @@ def cli(ctx,
     unpacker = unmp(buffer_size=buffer_size, verbose=verbose,)
     for value in unpacker:
         if verbose:
-            ic(type(value), value)
+            epprint(f"{type(value)=}", f"{value=}")
         if use_repr:
             # in this case, the values are serialized, so it's correct for human/tty use to add '\n'
             sys.stdout.write(repr(value) + '\n')
@@ -115,8 +79,6 @@ def cli(ctx,
             value = value.hex()
             sys.stdout.write(value + '\0')
             continue
-        if verbose:
-            ic(value)
 
         if isinstance(value, bytes):
             sys.stdout.buffer.write(value + b'\0')  # hopefully value is bytes
@@ -126,4 +88,3 @@ def cli(ctx,
             sys.stdout.flush()
         else:
             raise NotImplementedError
-
