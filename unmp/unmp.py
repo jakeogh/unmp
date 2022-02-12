@@ -39,41 +39,42 @@ from asserttool import maxone
 from asserttool import tv
 from clicktool import click_add_options
 from clicktool import click_global_options
+from mptool import unmp
 
 signal(SIGPIPE, SIG_DFL)
 
 
-def unmp(*,
-         verbose: int,
-         valid_types: Optional[Union[list, tuple]] = None,
-         buffer_size: int = 1024,
-         skip: Optional[int] = None,
-         single_type: bool = True,
-         ) -> Iterator[object]:
-    unpacker = msgpack.Unpacker()
-    index = 0
-    found_type = None
-    for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
-        if verbose == inf:
-            ic(valid_types, buffer_size, type(chunk), len(chunk), chunk)
-        unpacker.feed(chunk)
-        for value in unpacker:
-            if single_type:
-                if index == 0:
-                    found_type = type(value)
-                else:
-                    assert isinstance(value, found_type)
-            index += 1
-            if verbose == inf:
-                ic(index, value)
-            if skip is not None:
-                if index <= skip:
-                    continue
-            #assert isinstance(value, list)
-            if valid_types is not None:
-                if type(value) not in valid_types:
-                    raise TypeError('{} not in valid_types: {}'.format(type(value), valid_types))
-            yield value
+#def unmp(*,
+#         verbose: int,
+#         valid_types: Optional[Union[list, tuple]] = None,
+#         buffer_size: int = 1024,
+#         skip: Optional[int] = None,
+#         single_type: bool = True,
+#         ) -> Iterator[object]:
+#    unpacker = msgpack.Unpacker()
+#    index = 0
+#    found_type = None
+#    for chunk in iter(lambda: sys.stdin.buffer.read(buffer_size), b""):
+#        if verbose == inf:
+#            ic(valid_types, buffer_size, type(chunk), len(chunk), chunk)
+#        unpacker.feed(chunk)
+#        for value in unpacker:
+#            if single_type:
+#                if index == 0:
+#                    found_type = type(value)
+#                else:
+#                    assert isinstance(value, found_type)
+#            index += 1
+#            if verbose == inf:
+#                ic(index, value)
+#            if skip is not None:
+#                if index <= skip:
+#                    continue
+#            #assert isinstance(value, list)
+#            if valid_types is not None:
+#                if type(value) not in valid_types:
+#                    raise TypeError('{} not in valid_types: {}'.format(type(value), valid_types))
+#            yield value
 
 
 @click.command()
