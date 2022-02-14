@@ -31,9 +31,9 @@ from typing import Union
 
 import click
 from asserttool import maxone
-from asserttool import tv
 from clicktool import click_add_options
 from clicktool import click_global_options
+from clicktool import tv
 from epprint import epprint
 from eprint import eprint
 from mptool import unmp
