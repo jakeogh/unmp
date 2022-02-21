@@ -53,8 +53,10 @@ def cli(ctx,
         verbose_inf: bool,
         use_repr: bool,
         use_hex: bool,
+        dict_input: bool,
         ) -> None:
 
+    assert not dict_input
     maxone([use_repr, use_hex])
 
     tty, verbose = tv(ctx=ctx,
