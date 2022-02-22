@@ -42,51 +42,73 @@ signal(SIGPIPE, SIG_DFL)
 
 
 @click.command()
-@click.option('-r', '--repr', 'use_repr', is_flag=True,)
-@click.option('-h', '--hex', 'use_hex', is_flag=True,)
-@click.option('--buffer', 'buffer_size', type=int, default=16384,)
+@click.option(
+    "-r",
+    "--repr",
+    "use_repr",
+    is_flag=True,
+)
+@click.option(
+    "-h",
+    "--hex",
+    "use_hex",
+    is_flag=True,
+)
+@click.option(
+    "--buffer",
+    "buffer_size",
+    type=int,
+    default=16384,
+)
 @click_add_options(click_global_options)
 @click.pass_context
-def cli(ctx,
-        buffer_size: int,
-        verbose: Union[bool, int, float],
-        verbose_inf: bool,
-        use_repr: bool,
-        use_hex: bool,
-        dict_input: bool,
-        ) -> None:
+def cli(
+    ctx,
+    buffer_size: int,
+    verbose: Union[bool, int, float],
+    verbose_inf: bool,
+    use_repr: bool,
+    use_hex: bool,
+    dict_input: bool,
+) -> None:
 
     assert not dict_input
     maxone([use_repr, use_hex])
 
-    tty, verbose = tv(ctx=ctx,
-                      verbose=verbose,
-                      verbose_inf=verbose_inf,
-                      )
+    tty, verbose = tv(
+        ctx=ctx,
+        verbose=verbose,
+        verbose_inf=verbose_inf,
+    )
     if tty:
         if not use_repr:
-            eprint('stdout is a tty, refusing to attempt to write arb py objects to it, use --repr')
+            eprint(
+                "stdout is a tty, refusing to attempt to write arb py objects to it, use --repr"
+            )
             sys.stdin.close()
             sys.exit(1)
 
-    unpacker = unmp(buffer_size=buffer_size, verbose=verbose,)
+    unpacker = unmp(
+        buffer_size=buffer_size,
+        verbose=verbose,
+    )
     for value in unpacker:
         if verbose:
             epprint(f"{type(value)=}", f"{value=}")
         if use_repr:
             # in this case, the values are serialized, so it's correct for human/tty use to add '\n'
-            sys.stdout.write(repr(value) + '\n')
+            sys.stdout.write(repr(value) + "\n")
             continue
         if use_hex:
             value = value.hex()
-            sys.stdout.write(value + '\0')
+            sys.stdout.write(value + "\0")
             continue
 
         if isinstance(value, bytes):
-            sys.stdout.buffer.write(value + b'\0')  # hopefully value is bytes
+            sys.stdout.buffer.write(value + b"\0")  # hopefully value is bytes
             sys.stdout.buffer.flush()
         elif isinstance(value, str):
-            sys.stdout.write(value + '\0')
+            sys.stdout.write(value + "\0")
             sys.stdout.flush()
         else:
             raise NotImplementedError
