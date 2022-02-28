@@ -98,6 +98,7 @@ def cli(
         if use_repr:
             # in this case, the values are serialized, so it's correct for human/tty use to add '\n'
             sys.stdout.write(repr(value) + "\n")
+            sys.stdout.flush()
             continue
         if use_hex:
             value = value.hex()
