@@ -49,6 +49,10 @@ signal(SIGPIPE, SIG_DFL)
     is_flag=True,
 )
 @click.option(
+    "--no-strict-map-key",
+    is_flag=True,
+)
+@click.option(
     "-h",
     "--hex",
     "use_hex",
@@ -70,9 +74,11 @@ def cli(
     use_repr: bool,
     use_hex: bool,
     dict_input: bool,
+    no_strict_map_key: bool,
 ) -> None:
 
     assert not dict_input
+    strict_map_key = not no_strict_map_key
     maxone([use_repr, use_hex])
 
     tty, verbose = tv(
@@ -90,6 +96,7 @@ def cli(
 
     unpacker = unmp(
         buffer_size=buffer_size,
+        strict_map_key=strict_map_key,
         verbose=verbose,
     )
     for value in unpacker:
