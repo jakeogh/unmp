@@ -49,7 +49,7 @@ signal(SIGPIPE, SIG_DFL)
     is_flag=True,
 )
 @click.option(
-    "--no-strict-map-key",
+    "--strict-map-key",
     is_flag=True,
 )
 @click.option(
@@ -74,11 +74,10 @@ def cli(
     use_repr: bool,
     use_hex: bool,
     dict_input: bool,
-    no_strict_map_key: bool,
+    strict_map_key: bool,
 ) -> None:
 
     assert not dict_input
-    strict_map_key = not no_strict_map_key
     maxone([use_repr, use_hex])
 
     tty, verbose = tv(
