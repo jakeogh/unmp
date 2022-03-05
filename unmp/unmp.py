@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf8 -*-
 
-# flake8: noqa           # flake8 has no per file settings :(
 # pylint: disable=C0111  # docstrings are always outdated and wrong
-# pylint: disable=C0114  #      Missing module docstring (missing-module-docstring)
+# pylint: disable=C0114  # Missing module docstring (missing-module-docstring)
 # pylint: disable=W0511  # todo is encouraged
 # pylint: disable=C0301  # line too long
 # pylint: disable=R0902  # too many instance attributes
@@ -23,14 +22,13 @@
 
 
 import sys
-from math import inf
+# from math import inf
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
 from typing import Union
 
 import click
-from asserttool import maxone
 from clicktool import click_add_options
 from clicktool import click_global_options
 from clicktool import tv
@@ -53,12 +51,6 @@ signal(SIGPIPE, SIG_DFL)
     is_flag=True,
 )
 @click.option(
-    "-h",
-    "--hex",
-    "use_hex",
-    is_flag=True,
-)
-@click.option(
     "--buffer",
     "buffer_size",
     type=int,
@@ -72,13 +64,11 @@ def cli(
     verbose: Union[bool, int, float],
     verbose_inf: bool,
     use_repr: bool,
-    use_hex: bool,
     dict_input: bool,
     strict_map_key: bool,
 ) -> None:
 
     assert not dict_input
-    maxone([use_repr, use_hex])
 
     tty, verbose = tv(
         ctx=ctx,
@@ -106,16 +96,12 @@ def cli(
             sys.stdout.write(repr(value) + "\n")
             sys.stdout.flush()
             continue
-        if use_hex:
-            value = value.hex()
-            sys.stdout.write(value + "\0")
-            continue
 
         if isinstance(value, bytes):
-            sys.stdout.buffer.write(value + b"\0")  # hopefully value is bytes
+            sys.stdout.buffer.write(value)
             sys.stdout.buffer.flush()
         elif isinstance(value, str):
-            sys.stdout.write(value + "\0")
+            sys.stdout.write(value)
             sys.stdout.flush()
         else:
-            raise NotImplementedError
+            raise NotImplementedError(type(value))
