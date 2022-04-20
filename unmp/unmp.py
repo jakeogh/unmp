@@ -22,7 +22,6 @@
 
 
 import sys
-# from math import inf
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
@@ -34,7 +33,7 @@ from clicktool import click_global_options
 from clicktool import tv
 from epprint import epprint
 from eprint import eprint
-from mptool import unmp
+from mptool import unmp as _unmp
 
 signal(SIGPIPE, SIG_DFL)
 
@@ -83,7 +82,7 @@ def cli(
             sys.stdin.close()
             sys.exit(1)
 
-    unpacker = unmp(
+    unpacker = _unmp(
         buffer_size=buffer_size,
         strict_map_key=strict_map_key,
         verbose=verbose,
