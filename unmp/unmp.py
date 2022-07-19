@@ -22,6 +22,7 @@
 from __future__ import annotations
 
 import sys
+from math import inf
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
@@ -73,6 +74,8 @@ def cli(
         verbose=verbose,
         verbose_inf=verbose_inf,
     )
+    if verbose == inf:
+        epprint(verbose)
 
     if tty:
         if not use_repr:
