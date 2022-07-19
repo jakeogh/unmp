@@ -73,6 +73,7 @@ def cli(
         verbose=verbose,
         verbose_inf=verbose_inf,
     )
+
     if tty:
         if not use_repr:
             eprint(
@@ -86,6 +87,7 @@ def cli(
         strict_map_key=strict_map_key,
         verbose=verbose,
     )
+
     for value in unpacker:
         if verbose:
             epprint(f"{type(value)=}", f"{value=}")
