@@ -22,20 +22,21 @@
 from __future__ import annotations
 
 import sys
+from collections.abc import Iterator
 from math import inf
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
-from typing import Iterator
 from typing import BinaryIO
-import msgpack
+from typing import Type
+
 import click
+import msgpack
 from clicktool import click_add_options
 from clicktool import click_global_options
 from clicktool import tv
 from epprint import epprint
 from eprint import eprint
-from typing import Type
 
 signal(SIGPIPE, SIG_DFL)
 
@@ -60,7 +61,7 @@ def unmp(
                     f"valid_types was passed with a non-Type member {_type=}"
                 )
 
-    found_type: Type = type(None)
+    found_type: type = type(None)
     for chunk in iter(lambda: file_handle.read(buffer_size), b""):
         if verbose == inf:
             epprint(
@@ -87,7 +88,6 @@ def unmp(
                 if type(value) not in valid_types:
                     raise TypeError(f"{type(value)} not in valid_types: {valid_types}")
             yield value
-
 
 
 @click.command()
@@ -160,4 +160,3 @@ def cli(
             sys.stdout.flush()
         else:
             raise NotImplementedError(type(value))
-
