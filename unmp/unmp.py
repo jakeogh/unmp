@@ -27,7 +27,6 @@ from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
 from typing import BinaryIO
-from typing import Type
 
 import click
 import msgpack
@@ -36,6 +35,9 @@ from clicktool import click_global_options
 from clicktool import tv
 from epprint import epprint
 from eprint import eprint
+
+# from typing import Type
+
 
 signal(SIGPIPE, SIG_DFL)
 
@@ -55,7 +57,7 @@ def unmp(
     index = 0
     if valid_types:
         for _type in valid_types:
-            if not isinstance(_type, Type):
+            if not isinstance(_type, type):
                 raise ValueError(
                     f"valid_types was passed with a non-Type member {_type=}"
                 )
