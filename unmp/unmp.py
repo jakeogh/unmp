@@ -116,11 +116,11 @@ def cli(
     verbose: bool | int | float,
     verbose_inf: bool,
     use_repr: bool,
-    dict_input: bool,
+    dict_output: bool,
     strict_map_key: bool,
 ) -> None:
 
-    assert not dict_input
+    assert not dict_output
 
     tty, verbose = tv(
         ctx=ctx,
