@@ -44,13 +44,13 @@ signal(SIGPIPE, SIG_DFL)
 # verbose can be math.inf
 def unmp(
     *,
-    verbose: bool | int | float,
     valid_types: None | list | tuple = None,
     buffer_size: int = 1024,
     skip: None | int = None,
     single_type: bool = True,
     strict_map_key: bool = False,  # True is the default
     file_handle: BinaryIO = sys.stdin.buffer,
+    verbose: bool | int | float = False,
 ) -> Iterator[object]:
 
     unpacker = msgpack.Unpacker(strict_map_key=strict_map_key, use_list=False)
@@ -113,11 +113,11 @@ def unmp(
 def cli(
     ctx,
     buffer_size: int,
-    verbose: bool | int | float,
     verbose_inf: bool,
     use_repr: bool,
     dict_output: bool,
     strict_map_key: bool,
+    verbose: bool | int | float = False,
 ) -> None:
 
     assert not dict_output
@@ -127,8 +127,6 @@ def cli(
         verbose=verbose,
         verbose_inf=verbose_inf,
     )
-    if verbose == inf:
-        epprint(verbose)
 
     if tty:
         if not use_repr:
@@ -141,7 +139,6 @@ def cli(
     unpacker = unmp(
         buffer_size=buffer_size,
         strict_map_key=strict_map_key,
-        verbose=verbose,
     )
 
     for value in unpacker:
