@@ -35,8 +35,9 @@ from clicktool import click_global_options
 from clicktool import tv
 from epprint import epprint
 from eprint import eprint
-from unmp import unmp
+from globalverbose import gvd
 
+from unmp import unmp
 
 signal(SIGPIPE, SIG_DFL)
 
@@ -76,6 +77,9 @@ def cli(
         verbose=verbose,
         verbose_inf=verbose_inf,
     )
+
+    if verbose_inf:
+        gvd.enable()
 
     if tty:
         if not use_repr:
