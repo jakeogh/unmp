@@ -5,10 +5,15 @@ from __future__ import annotations
 import sys
 from collections.abc import Iterator
 from typing import BinaryIO
+from typing import TypeVar
 
 import msgpack
 from epprint import epprint
 from globalverbose import gvd
+
+T = TypeVar("T", list, tuple)
+
+# def umap(valid_tupes: Optional[T], ...) -> Iterator[T]:
 
 
 def unmp(
@@ -19,9 +24,14 @@ def unmp(
     single_type: bool = True,
     strict_map_key: bool = False,  # True is the default
     file_handle: BinaryIO = sys.stdin.buffer,
+    ignore_errors: bool = False,
     verbose: bool | int | float = False,
 ) -> Iterator[object]:
-    unpacker = msgpack.Unpacker(strict_map_key=strict_map_key, use_list=False)
+    _unpacker_options = {"strict_map_key": strict_map_key, "use_list": False}
+    if ignore_errors:
+        _unpacker_options["unicode_errors"] = "ignore"
+    # unpacker = msgpack.Unpacker(strict_map_key=strict_map_key, use_list=False)
+    unpacker = msgpack.Unpacker(**_unpacker_options)
     index = 0
     if valid_types:
         for _type in valid_types:
@@ -56,5 +66,3 @@ def unmp(
                 if type(value) not in valid_types:
                     raise TypeError(f"{type(value)} not in valid_types: {valid_types}")
             yield value
-
-
