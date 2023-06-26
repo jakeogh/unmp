@@ -66,7 +66,7 @@ def unmp(
                 if skip is not None:
                     if index <= skip:
                         continue
-                if valid_types is not None:
+                if valid_types:
                     if type(value) not in valid_types:
                         raise TypeError(
                             f"{type(value)} not in valid_types: {valid_types}"
