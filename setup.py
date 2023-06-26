@@ -6,7 +6,11 @@ from setuptools import setup
 
 import fastentrypoints
 
-dependencies = ["click"]
+dependencies = [
+    "click",
+    "eprint @ git+https://git@github.com/jakeogh/epprint",
+    "globalverbose @ git+https://git@github.com/jakeogh/globalverbose",
+]
 
 config = {
     "version": "0.1",
