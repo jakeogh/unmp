@@ -25,7 +25,7 @@ config = {
     "install_requires": dependencies,
     "entry_points": {
         "console_scripts": [
-            "unmp=unmp.unmp:cli",
+            "unmp=unmp.cli:cli",
         ],
     },
 }
