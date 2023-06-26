@@ -7,8 +7,9 @@ from setuptools import setup
 import fastentrypoints
 
 dependencies = [
-    "click",
     "eprint @ git+https://git@github.com/jakeogh/epprint",
+    "epprint @ git+https://git@github.com/jakeogh/eppprint",
+    "clicktool @ git+https://git@github.com/jakeogh/clicktool",
     "globalverbose @ git+https://git@github.com/jakeogh/globalverbose",
 ]
 
@@ -19,7 +20,7 @@ config = {
     "license": "ISC",
     "author": "Justin Keogh",
     "author_email": "github.com@v6y.net",
-    "description": "Short explination of what it does _here_",
+    "description": "iterates over or removes messagepacking from stdin",
     "long_description": __doc__,
     "packages": find_packages(exclude=["tests"]),
     "package_data": {"unmp": ["py.typed"]},
