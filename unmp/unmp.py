@@ -30,7 +30,17 @@ def unmp(valid_types: tuple[type[bytes]]) -> Iterator[bytes]:
 
 
 @overload
+def unmp(valid_types: tuple[type[dict]]) -> Iterator[dict]:
+    ...
+
+
+@overload
 def unmp(valid_types: tuple[type[bytes], type[str]]) -> Iterator[str | bytes]:
+    ...
+
+
+@overload
+def unmp(valid_types: tuple[type[str], type[bytes]]) -> Iterator[str | bytes]:
     ...
 
 
@@ -40,8 +50,13 @@ def unmp(
     valid_types: None
     | tuple[type[str]]
     | tuple[type[bytes]]
+    | tuple[type[dict]]
+    | tuple[type[str], type[bytes]]
     | tuple[type[bytes], type[str]]
-    | tuple[type[str], type[bytes]] = None,
+    | tuple[type[str], type[dict]]
+    | tuple[type[dict], type[str]]
+    | tuple[type[bytes], type[dict]]
+    | tuple[type[dict], type[bytes]] = None,
     buffer_size: int = 1024,
     skip: None | int = None,
     single_type: bool = True,
