@@ -6,17 +6,41 @@ import sys
 from collections.abc import Iterator
 from contextlib import suppress
 from typing import BinaryIO
+from typing import overload
 
 import msgpack
 from epprint import epprint
 from globalverbose import gvd
-# from typing import TypeVar
 from typing_extensions import TypedDict
+
+
+@overload
+def unmp(valid_types: None) -> Iterator[str | bytes]:
+    ...
+
+
+@overload
+def unmp(valid_types: tuple[type[str]]) -> Iterator[str]:
+    ...
+
+
+@overload
+def unmp(valid_types: tuple[type[bytes]]) -> Iterator[bytes]:
+    ...
+
+
+@overload
+def unmp(valid_types: tuple[type[bytes], type[str]]) -> Iterator[str | bytes]:
+    ...
 
 
 def unmp(
     *,
-    valid_types: list | tuple = (),
+    # valid_types: None | tuple[type[str]] | tuple[type[bytes]] | tuple[type[str] | type[bytes]] = (str,),
+    valid_types: None
+    | tuple[type[str]]
+    | tuple[type[bytes]]
+    | tuple[type[str] | type[bytes]] = None,
     buffer_size: int = 1024,
     skip: None | int = None,
     single_type: bool = True,
