@@ -40,7 +40,8 @@ def unmp(
     valid_types: None
     | tuple[type[str]]
     | tuple[type[bytes]]
-    | tuple[type[str] | type[bytes]] = None,
+    | tuple[type[bytes], type[str]]
+    | tuple[type[str], type[bytes]] = None,
     buffer_size: int = 1024,
     skip: None | int = None,
     single_type: bool = True,
