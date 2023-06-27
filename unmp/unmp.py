@@ -6,15 +6,12 @@ import sys
 from collections.abc import Iterator
 from contextlib import suppress
 from typing import BinaryIO
-from typing import TypeVar
 
 import msgpack
 from epprint import epprint
 from globalverbose import gvd
-
-T = TypeVar("T", list, tuple)
-
-# def umap(valid_tupes: Optional[T], ...) -> Iterator[T]:
+# from typing import TypeVar
+from typing_extensions import TypedDict
 
 
 def unmp(
@@ -28,7 +25,15 @@ def unmp(
     ignore_errors: bool = False,
     verbose: bool | int | float = False,
 ) -> Iterator[object]:
-    _unpacker_options = {"strict_map_key": strict_map_key, "use_list": False}
+    _Unpacker_Options = TypedDict(
+        "_Unpacker_Options",
+        {"strict_map_key": bool, "use_list": bool, "unicode_errors": str},
+        total=False,
+    )
+    _unpacker_options: _Unpacker_Options = {
+        "strict_map_key": strict_map_key,
+        "use_list": False,
+    }
     _suppress_exceptions = []
     if ignore_errors:
         _unpacker_options["unicode_errors"] = "ignore"
