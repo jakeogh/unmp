@@ -7,8 +7,8 @@ from setuptools import setup
 import fastentrypoints
 
 dependencies = [
-    "eprint @ git+https://git@github.com/jakeogh/epprint",
-    "epprint @ git+https://git@github.com/jakeogh/eppprint",
+    "eprint @ git+https://git@github.com/jakeogh/eprint",
+    "epprint @ git+https://git@github.com/jakeogh/epprint",
     "clicktool @ git+https://git@github.com/jakeogh/clicktool",
     "globalverbose @ git+https://git@github.com/jakeogh/globalverbose",
 ]
