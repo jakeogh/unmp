@@ -7,7 +7,7 @@ from setuptools import setup
 import fastentrypoints
 
 dependencies = [
-    "python3-typing-extensions",
+    "typing-extensions",
     "eprint @ git+https://git@github.com/jakeogh/eprint",
     "epprint @ git+https://git@github.com/jakeogh/epprint",
     "clicktool @ git+https://git@github.com/jakeogh/clicktool",
