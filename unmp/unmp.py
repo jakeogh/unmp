@@ -65,7 +65,7 @@ def unmp(
     ignore_errors: bool = False,
     verbose: bool = False,
 ) -> Iterator[object]:
-    assert verbose
+    # assert verbose
     if verbose:
         gvd.enable()
         epprint(
