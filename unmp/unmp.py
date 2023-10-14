@@ -57,7 +57,7 @@ def unmp(
     | tuple[type[dict], type[str]]
     | tuple[type[bytes], type[dict]]
     | tuple[type[dict], type[bytes]] = None,
-    buffer_size: int = 1024,
+    buffer_size: int = 128,
     skip: None | int = None,
     single_type: bool = True,
     strict_map_key: bool = False,  # True is the default
