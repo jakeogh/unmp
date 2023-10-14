@@ -65,8 +65,13 @@ def unmp(
     ignore_errors: bool = False,
     verbose: bool = False,
 ) -> Iterator[object]:
+    assert verbose
     if verbose:
         gvd.enable()
+        epprint(
+            f"{valid_types=}",
+            f"{buffer_size=}",
+        )
     _Unpacker_Options = TypedDict(
         "_Unpacker_Options",
         {"strict_map_key": bool, "use_list": bool, "unicode_errors": str},
