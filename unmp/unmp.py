@@ -63,8 +63,10 @@ def unmp(
     strict_map_key: bool = False,  # True is the default
     file_handle: BinaryIO = sys.stdin.buffer,
     ignore_errors: bool = False,
-    verbose: bool | int | float = False,
+    verbose: bool = False,
 ) -> Iterator[object]:
+    if verbose:
+        gvd.enable()
     _Unpacker_Options = TypedDict(
         "_Unpacker_Options",
         {"strict_map_key": bool, "use_list": bool, "unicode_errors": str},
