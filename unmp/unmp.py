@@ -123,9 +123,11 @@ def unmp(
                     if isinstance(value, dict):
                         for _k, _v in value.items():
                             if valid_dict_key_type:
-                                assert isinstance(_k, valid_dict_key_type)
+                                if not isinstance(_k, valid_dict_key_type):
+                                    raise ValueError(f"dict key: {_k} is of type {type(_k)} but must be of type {valid_dict_key_type}")
                             if valid_dict_value_type:
-                                assert isinstance(_v, valid_dict_value_type)
+                                if not isinstance(_v, valid_dict_value_type):
+                                    raise ValueError(f"dict value: {_v} is of type {type(_v)} but must be of type {valid_dict_value_type}")
                 index += 1
                 if gvd:
                     epprint(f"{index=}", f"{value=}")
