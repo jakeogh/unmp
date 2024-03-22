@@ -70,8 +70,8 @@ def unmp(
 ) -> Iterator[object]:
     # assert verbose
     icp(valid_types)
-    if dict in valid_types:
-        assert valid_dict_value_type
+    # if dict in valid_types:
+    #    assert valid_dict_value_type
     if verbose:
         gvd.enable()
         epprint(
