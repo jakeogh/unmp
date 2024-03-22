@@ -57,6 +57,8 @@ def unmp(
     | tuple[type[dict], type[str]]
     | tuple[type[bytes], type[dict]]
     | tuple[type[dict], type[bytes]] = None,
+    valid_dict_key_type: None | type[str] | type[bytes] | type[int] = None,
+    valid_dict_value_type: None | type[str] | type[bytes] | type[int] = None,
     buffer_size: int = 128,
     skip: None | int = None,
     single_type: bool = True,
@@ -100,6 +102,8 @@ def unmp(
         if gvd:
             epprint(
                 f"{valid_types=}",
+                f"{valid_dict_key_type=}",
+                f"{valid_dict_value_type=}",
                 f"{buffer_size=}",
                 f"{type(chunk)=}," f"{len(chunk)=}",
                 f"{chunk=}",
@@ -112,6 +116,12 @@ def unmp(
                         found_type = type(value)
                     elif not isinstance(value, found_type):
                         raise TypeError(f"{value=} does not match {found_type=}")
+                    if isinstance(value, dict):
+                        for _k, _v in value.items():
+                            if valid_dict_key_type:
+                                assert isinstance(_k, valid_dict_key_type)
+                            if valid_dict_value_type:
+                                assert isinstance(_v, valid_dict_value_type)
                 index += 1
                 if gvd:
                     epprint(f"{index=}", f"{value=}")
