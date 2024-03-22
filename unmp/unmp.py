@@ -9,6 +9,7 @@ from typing import BinaryIO
 from typing import overload
 
 import msgpack
+from asserttool import icp
 from epprint import epprint
 from globalverbose import gvd
 from typing_extensions import TypedDict
@@ -68,6 +69,9 @@ def unmp(
     verbose: bool = False,
 ) -> Iterator[object]:
     # assert verbose
+    icp(valid_types)
+    if dict in valid_types:
+        assert valid_dict_value_type
     if verbose:
         gvd.enable()
         epprint(
