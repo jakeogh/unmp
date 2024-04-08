@@ -9,55 +9,50 @@ from typing import BinaryIO
 from typing import overload
 
 import msgpack
-from asserttool import icp
 from epprint import epprint
 from globalverbose import gvd
 from typing_extensions import TypedDict
 
 
 @overload
-def unmp(valid_types: None) -> Iterator[str | bytes]:
-    ...
+def unmp(valid_types: None) -> Iterator[str | bytes]: ...
 
 
 @overload
-def unmp(valid_types: tuple[type[str]]) -> Iterator[str]:
-    ...
+def unmp(valid_types: tuple[type[str]]) -> Iterator[str]: ...
 
 
 @overload
-def unmp(valid_types: tuple[type[bytes]]) -> Iterator[bytes]:
-    ...
+def unmp(valid_types: tuple[type[bytes]]) -> Iterator[bytes]: ...
 
 
 @overload
-def unmp(valid_types: tuple[type[dict]]) -> Iterator[dict]:
-    ...
+def unmp(valid_types: tuple[type[dict]]) -> Iterator[dict]: ...
 
 
 @overload
-def unmp(valid_types: tuple[type[bytes], type[str]]) -> Iterator[str | bytes]:
-    ...
+def unmp(valid_types: tuple[type[bytes], type[str]]) -> Iterator[str | bytes]: ...
 
 
 @overload
-def unmp(valid_types: tuple[type[str], type[bytes]]) -> Iterator[str | bytes]:
-    ...
+def unmp(valid_types: tuple[type[str], type[bytes]]) -> Iterator[str | bytes]: ...
 
 
 def unmp(
     *,
     # valid_types: None | tuple[type[str]] | tuple[type[bytes]] | tuple[type[str] | type[bytes]] = (str,),
-    valid_types: None
-    | tuple[type[str]]
-    | tuple[type[bytes]]
-    | tuple[type[dict]]
-    | tuple[type[str], type[bytes]]
-    | tuple[type[bytes], type[str]]
-    | tuple[type[str], type[dict]]
-    | tuple[type[dict], type[str]]
-    | tuple[type[bytes], type[dict]]
-    | tuple[type[dict], type[bytes]] = None,
+    valid_types: (
+        None
+        | tuple[type[str]]
+        | tuple[type[bytes]]
+        | tuple[type[dict]]
+        | tuple[type[str], type[bytes]]
+        | tuple[type[bytes], type[str]]
+        | tuple[type[str], type[dict]]
+        | tuple[type[dict], type[str]]
+        | tuple[type[bytes], type[dict]]
+        | tuple[type[dict], type[bytes]]
+    ) = None,
     valid_dict_key_type: None | type[str] | type[bytes] | type[int] = None,
     valid_dict_value_type: None | type[str] | type[bytes] | type[int] = None,
     buffer_size: int = 128,
@@ -69,7 +64,7 @@ def unmp(
     verbose: bool = False,
 ) -> Iterator[object]:
     # assert verbose
-    icp(valid_types)
+    # icp(valid_types)
     # if dict in valid_types:
     #    assert valid_dict_value_type
     if verbose:
@@ -124,10 +119,14 @@ def unmp(
                         for _k, _v in value.items():
                             if valid_dict_key_type:
                                 if not isinstance(_k, valid_dict_key_type):
-                                    raise ValueError(f"dict key: {_k} is of type {type(_k)} but must be of type {valid_dict_key_type}")
+                                    raise ValueError(
+                                        f"dict key: {_k} is of type {type(_k)} but must be of type {valid_dict_key_type}"
+                                    )
                             if valid_dict_value_type:
                                 if not isinstance(_v, valid_dict_value_type):
-                                    raise ValueError(f"dict value: {_v} is of type {type(_v)} but must be of type {valid_dict_value_type}")
+                                    raise ValueError(
+                                        f"dict value: {_v} is of type {type(_v)} but must be of type {valid_dict_value_type}"
+                                    )
                 index += 1
                 if gvd:
                     epprint(f"{index=}", f"{value=}")
