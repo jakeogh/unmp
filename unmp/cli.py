@@ -32,7 +32,7 @@ from signal import signal
 import click
 from clicktool import click_add_options
 from clicktool import click_global_options
-from clicktool import tv
+from clicktool import tvicgvd
 from epprint import epprint
 from eprint import eprint
 from globalverbose import gvd
@@ -68,14 +68,16 @@ def cli(
     use_repr: bool,
     dict_output: bool,
     strict_map_key: bool,
-    verbose: bool | int | float = False,
+    verbose: bool = False,
 ) -> None:
     assert not dict_output
 
-    tty, verbose = tv(
+    tty, verbose = tvicgvd(
         ctx=ctx,
         verbose=verbose,
         verbose_inf=verbose_inf,
+        ic=ic,
+        gvd=gvd,
     )
 
     if verbose_inf:
