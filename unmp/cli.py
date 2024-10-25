@@ -30,6 +30,7 @@ from signal import SIGPIPE
 from signal import signal
 
 import click
+from asserttool import ic
 from clicktool import click_add_options
 from clicktool import click_global_options
 from clicktool import tvicgvd
