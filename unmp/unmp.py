@@ -114,7 +114,9 @@ def unmp(
                     if index == 0:
                         found_type = type(value)
                     elif not isinstance(value, found_type):
-                        raise TypeError(f"{value=} does not match {found_type=}")
+                        raise TypeError(
+                            f"{value=} {type(value)=} does not match {found_type=}"
+                        )
                     if isinstance(value, dict):
                         for _k, _v in value.items():
                             if valid_dict_key_type:
