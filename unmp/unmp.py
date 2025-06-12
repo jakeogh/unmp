@@ -6,63 +6,57 @@ import sys
 from collections.abc import Iterator
 from contextlib import suppress
 from typing import BinaryIO
+from typing import Iterator
+from typing import Union
 from typing import overload
 
 import msgpack
 from epprint import epprint
 from globalverbose import gvd
+from typing_extensions import TypeAlias
 from typing_extensions import TypedDict
 
-
-@overload
-def unmp(valid_types: None) -> Iterator[str | bytes]: ...
-
-
-@overload
-def unmp(valid_types: tuple[type[str]]) -> Iterator[str]: ...
-
-
-@overload
-def unmp(valid_types: tuple[type[bytes]]) -> Iterator[bytes]: ...
-
-
-@overload
-def unmp(valid_types: tuple[type[dict]]) -> Iterator[dict]: ...
+# Define the universe of types MessagePack can represent
+MessagePackType: TypeAlias = Union[
+    None,
+    bool,
+    int,
+    float,
+    str,
+    bytes,
+    list["MessagePackType"],
+    tuple["MessagePackType", ...],
+    dict["MessagePackType", "MessagePackType"],
+]
 
 
 @overload
-def unmp(valid_types: tuple[type[bytes], type[str]]) -> Iterator[str | bytes]: ...
-
-
+def unmp(valid_types: None = ...) -> Iterator[MessagePackType]: ...
 @overload
-def unmp(valid_types: tuple[type[str], type[bytes]]) -> Iterator[str | bytes]: ...
+def unmp(valid_types: tuple[type[str], ...]) -> Iterator[str]: ...
+@overload
+def unmp(valid_types: tuple[type[bytes], ...]) -> Iterator[bytes]: ...
+@overload
+def unmp(valid_types: tuple[type[dict], ...]) -> Iterator[dict]: ...
+@overload
+def unmp(
+    valid_types: tuple[type[MessagePackType], ...]
+) -> Iterator[MessagePackType]: ...
 
 
 def unmp(
     *,
-    # valid_types: None | tuple[type[str]] | tuple[type[bytes]] | tuple[type[str] | type[bytes]] = (str,),
-    valid_types: (
-        None
-        | tuple[type[str]]
-        | tuple[type[bytes]]
-        | tuple[type[dict]]
-        | tuple[type[str], type[bytes]]
-        | tuple[type[bytes], type[str]]
-        | tuple[type[str], type[dict]]
-        | tuple[type[dict], type[str]]
-        | tuple[type[bytes], type[dict]]
-        | tuple[type[dict], type[bytes]]
-    ) = None,
-    valid_dict_key_type: None | type[str] | type[bytes] | type[int] = None,
-    valid_dict_value_type: None | type[str] | type[bytes] | type[int] = None,
+    valid_types: tuple[type[MessagePackType], ...] | None = None,
+    valid_dict_key_type: type[str] | type[bytes] | type[int] | None = None,
+    valid_dict_value_type: type[str] | type[bytes] | type[int] | None = None,
     buffer_size: int = 128,
-    skip: None | int = None,
+    skip: int | None = None,
     single_type: bool = True,
-    strict_map_key: bool = False,  # True is the default
+    strict_map_key: bool = False,
     file_handle: BinaryIO = sys.stdin.buffer,
     ignore_errors: bool = False,
     verbose: bool = False,
-) -> Iterator[object]:
+) -> Iterator[MessagePackType]:
     # assert verbose
     # icp(valid_types)
     # if dict in valid_types:
