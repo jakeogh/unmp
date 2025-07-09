@@ -2,6 +2,14 @@
 
 from __future__ import annotations
 
+from beartype import BeartypeConf
+from beartype.claw import beartype_all
+from beartype.claw import beartype_this_package
+
+beartype_this_package()
+beartype_all(conf=BeartypeConf(violation_type=UserWarning))
+
+
 import sys
 from collections.abc import Iterator
 from contextlib import suppress
