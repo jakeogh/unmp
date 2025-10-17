@@ -6,7 +6,6 @@ import sys
 from collections.abc import Iterator
 from contextlib import suppress
 from typing import BinaryIO
-from typing import Iterator
 from typing import Union
 from typing import overload
 
