@@ -5,7 +5,7 @@ backend-path = ["."]
 
 [project]
 name = "unmp"
-version = "0.0.1761031423"
+version = "0.0.1761031424"
 description = "iterates over or removes messagepacking from stdin"
 authors = [
     { name = "Justin Keogh", email = "github.com@v6y.net" },
