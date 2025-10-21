@@ -1,8 +1,7 @@
 [build-system]
-requires = [
-    "setuptools>=61.0",
-]
-build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.0", "tomlkit"]
+build-backend = "pep508_url_version_backend"
+backend-path = ["."]
 
 [project]
 name = "unmp"
@@ -11,13 +10,7 @@ description = "iterates over or removes messagepacking from stdin"
 authors = [
     { name = "Justin Keogh", email = "github.com@v6y.net" },
 ]
-dependencies = [
-    "typing-extensions",
-    "eprint @ git+https://git@github.com/jakeogh/eprint",
-    "epprint @ git+https://git@github.com/jakeogh/epprint",
-    "clicktool @ git+https://git@github.com/jakeogh/clicktool",
-    "globalverbose @ git+https://git@github.com/jakeogh/globalverbose",
-]
+dependencies = []
 license = "ISC"
 requires-python = ">=3.11"
 
@@ -35,3 +28,8 @@ zip-safe = false
 unmp = [
     "py.typed",
 ]
+
+[tool.pep508-url-version-backend]
+dependencies-indexed = []
+dependencies-git = ["typing-extensions", "eprint @ git+https://git@github.com/jakeogh/eprint", "epprint @ git+https://git@github.com/jakeogh/epprint", "clicktool @ git+https://git@github.com/jakeogh/clicktool", "globalverbose @ git+https://git@github.com/jakeogh/globalverbose"]
+index-urls = ["jakeogh.github.io", "pip-index"]
