@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf8 -*-
 from __future__ import annotations
-import sys
+
 import argparse
+import sys
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
+
 from eprint import eprint
+
 from unmp import unmp
 
 signal(SIGPIPE, SIG_DFL)
+
 
 def cli(
     buffer_size: int,
@@ -40,6 +44,7 @@ def cli(
             sys.stdout.flush()
         else:
             raise NotImplementedError(type(value))
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
