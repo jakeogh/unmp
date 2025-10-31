@@ -31,11 +31,8 @@ unmp = [
 ]
 
 [tool.pep508-url-version-backend]
-dependencies-indexed = ["typing-extensions", "eprint>=1!0.0.1761259337", "epprint>=1!0.0.1761259484", "clicktool>=1!0.0.1761810015", "globalverbose>=0.0.1761031290"]
+dependencies-indexed = ["typing-extensions", "eprint>=1!0.0.1761259337"]
 dependencies-git = [
 	"typing-extensions", 
 	"eprint @ git+https://git@github.com/jakeogh/eprint", 
-	"epprint @ git+https://git@github.com/jakeogh/epprint", 
-	"clicktool @ git+https://git@github.com/jakeogh/clicktool", 
-	"globalverbose @ git+https://git@github.com/jakeogh/globalverbose"]
 index-urls = ["jakeogh.github.io", "pip-index"]
