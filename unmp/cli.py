@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf8 -*-
 from __future__ import annotations
 
 import argparse
@@ -14,7 +15,7 @@ from unmp import unmp
 signal(SIGPIPE, SIG_DFL)
 
 
-def cli(
+def _cli(
     buffer_size: int,
     use_repr: bool,
     strict_map_key: bool,
@@ -44,7 +45,7 @@ def cli(
             raise NotImplementedError(type(value))
 
 
-if __name__ == "__main__":
+def cli() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-r",
@@ -64,8 +65,12 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    cli(
+    _cli(
         buffer_size=args.buffer_size,
         use_repr=args.use_repr,
         strict_map_key=args.strict_map_key,
     )
+
+
+if __name__ == "__main__":
+    cli()
