@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf8 -*-
 from __future__ import annotations
 
 import argparse
@@ -27,11 +26,10 @@ def cli(
             )
             sys.stdin.close()
             sys.exit(1)
-    unpacker = unmp(
+    for value in unmp(
         buffer_size=buffer_size,
         strict_map_key=strict_map_key,
-    )
-    for value in unpacker:
+    ):
         if use_repr:
             sys.stdout.write(repr(value) + "\n")
             sys.stdout.flush()
