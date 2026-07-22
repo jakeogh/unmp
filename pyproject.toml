@@ -5,7 +5,7 @@ backend-path = ["."]
 
 [project]
 name = "unmp"
-version = "1!0.0.1762049804"
+version = "1!0.0.1784682571"
 description = "iterates over or removes messagepacking from stdin"
 authors = [
     { name = "Justin Keogh", email = "github.com@v6y.net" },
@@ -31,7 +31,7 @@ unmp = [
 ]
 
 [tool.pep508-url-version-backend]
-dependencies-indexed = ["eprint>=1!0.0.1761259337"]
+dependencies-indexed = ["eprint>=1!0.0.1784682565"]
 dependencies-git = [
 	"eprint @ git+https://git@github.com/jakeogh/eprint"
 ]
