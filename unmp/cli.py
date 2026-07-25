@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf8 -*-
-from __future__ import annotations
 
 import argparse
 import sys
