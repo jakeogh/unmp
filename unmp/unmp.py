@@ -4,12 +4,13 @@ import sys
 from collections.abc import Iterator
 from contextlib import suppress
 from typing import BinaryIO
+from typing import TypeAlias
 
 import msgpack
 from eprint import eprint
 from globalverbose import gvd
 
-type MessagePackType = (
+MessagePackType: TypeAlias = (
     None
     | bool
     | int
